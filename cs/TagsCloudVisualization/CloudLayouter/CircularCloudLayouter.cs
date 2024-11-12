@@ -16,7 +16,7 @@ public class CircularCloudLayouter : ICloudLayouter
     public Rectangle PutNextRectangle(Size rectangleSize)
     {
         if (rectangleSize.Width <= 0 || rectangleSize.Height <= 0)
-            throw new ArgumentException($"{nameof(rectangleSize)} должен иметь высоту и ширину больше нуля", nameof(rectangleSize));
+            throw new ArgumentException($"{nameof(rectangleSize)} должен иметь высоту и ширину больше нуля");
 
         Rectangle rectangle;
 

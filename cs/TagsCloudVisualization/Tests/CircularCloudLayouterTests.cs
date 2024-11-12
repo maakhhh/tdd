@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using FluentAssertions;
 using System.Drawing;
 
@@ -7,6 +8,26 @@ namespace TagsCloudVisualization;
 [TestFixture]
 public class CircularCloudLayouterTests
 {
+    private const int IMAGE_SIZE = 800;
+    private List<Rectangle> rectanglesInTest;
+
+    [TearDown]
+    public void TearDown()
+    {
+        if (TestContext.CurrentContext.Result.Outcome.Status != TestStatus.Failed)
+            return;
+
+        var directory = Path.Combine(TestContext.CurrentContext.WorkDirectory, "FailedVisualisations");
+        if (!Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+
+        var path = Path.Combine(directory, $"{TestContext.CurrentContext.Test.Name}_visualisation.png");
+
+        var visuliser = new CloudVisualiser();
+        visuliser.VisualiseAndSave(rectanglesInTest, path, new(IMAGE_SIZE, IMAGE_SIZE));
+        Console.WriteLine($"Tag cloud visualization saved to file {path}");
+    }
+
     [TestCase(0, 1, TestName="Zero width")]
     [TestCase(1, 0, TestName="Zero height")]
     [TestCase(-1, 1, TestName = "Negative width")]
@@ -33,6 +54,7 @@ public class CircularCloudLayouterTests
             rectangleSize.Width,
             rectangleSize.Height
         );
+        rectanglesInTest = layouter.GetRectangles();
 
         actualRectangle.Should().BeEquivalentTo(expectedRectangle);
     }
@@ -45,6 +67,7 @@ public class CircularCloudLayouterTests
         var count = random.Next(10, 30);
 
         var layouter = CloudGenerator.GenerateRandomCloudWithCenter(new(0, 0), count);
+        rectanglesInTest = layouter.GetRectangles();
 
         AreRectanglesHaveIntersects(layouter.GetRectangles()).Should().BeFalse();
     }
@@ -54,8 +77,9 @@ public class CircularCloudLayouterTests
     public void RectanglesCenterShoulBeLikeInitCenter()
     {
         var center = new Point(0, 0);
-        var treshold = 25;
+        var treshold = 1;
         var layouter = CloudGenerator.GenerateRandomCloudWithCenter(center, 100);
+        rectanglesInTest = layouter.GetRectangles();
 
         var actualCenter = GetCenterOfRectangles(layouter.GetRectangles());
 
@@ -70,6 +94,7 @@ public class CircularCloudLayouterTests
         var expectedDensity = 0.45;
         var center = new Point(0, 0);
         var layouter = CloudGenerator.GenerateRandomCloudWithCenter(center, 100);
+        rectanglesInTest = layouter.GetRectangles();
 
         var rectanglesArea = layouter.GetRectangles().Sum(r => r.Width * r.Height);
         var radius = GeMaxDistanceFromRectangleToCenter(layouter.GetRectangles());
