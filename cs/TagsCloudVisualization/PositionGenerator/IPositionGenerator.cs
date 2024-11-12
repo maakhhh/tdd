@@ -4,5 +4,5 @@ namespace TagsCloudVisualization;
 
 public interface IPositionGenerator
 {
-    public Point GetNextPosition();
+    public IEnumerable<Point> GetPositions();
 }

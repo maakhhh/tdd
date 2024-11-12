@@ -7,23 +7,27 @@ public class SpiralPositionGenerator : IPositionGenerator
     private const double ANGLE_OFFSET = 0.1;
     private readonly Point center;
     private readonly double step;
-    private double angle;
 
     public SpiralPositionGenerator(Point center, double step = 0.1)
     {
         this.step = step;
         this.center = center;
-        angle = 0;
     }
 
-    public Point GetNextPosition()
+    public IEnumerable<Point> GetPositions()
     {
-        var radius = step * angle;
-        var x = (int) (center.X + radius * Math.Cos(angle));
-        var y = (int) (center.Y + radius * Math.Sin(angle));
+        int x, y;
+        double radius, angle = 0;
 
-        angle += ANGLE_OFFSET;
+        while (true)
+        {
+            radius = step * angle;
+            x = (int)(center.X + radius * Math.Cos(angle));
+            y = (int)(center.Y + radius * Math.Sin(angle));
 
-        return new(x, y);
+            yield return new(x, y);
+
+            angle += ANGLE_OFFSET;
+        }
     }
 }

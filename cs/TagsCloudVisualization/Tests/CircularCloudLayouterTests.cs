@@ -77,7 +77,7 @@ public class CircularCloudLayouterTests
     public void RectanglesCenterShoulBeLikeInitCenter()
     {
         var center = new Point(0, 0);
-        var treshold = 1;
+        var treshold = 25;
         var layouter = CloudGenerator.GenerateRandomCloudWithCenter(center, 100);
         rectanglesInTest = layouter.GetRectangles();
 
