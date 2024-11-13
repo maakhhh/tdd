@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using FluentAssertions;
+using NUnit.Framework.Interfaces;
 using System.Drawing;
+using TagsCloudVisualization;
 
-namespace TagsCloudVisualization;
+namespace TagsCloudVisualizationTests;
 
 [TestFixture]
 public class CircularCloudLayouterTests
@@ -28,8 +28,8 @@ public class CircularCloudLayouterTests
         Console.WriteLine($"Tag cloud visualization saved to file {path}");
     }
 
-    [TestCase(0, 1, TestName="Zero width")]
-    [TestCase(1, 0, TestName="Zero height")]
+    [TestCase(0, 1, TestName = "Zero width")]
+    [TestCase(1, 0, TestName = "Zero height")]
     [TestCase(-1, 1, TestName = "Negative width")]
     [TestCase(1, -1, TestName = "Negative height")]
     public void Layouter_ThrowArgumentException_WithUncorrectData(int width, int height)
@@ -155,6 +155,6 @@ public class CircularCloudLayouterTests
         return false;
     }
 
-    private double GetDistanceBetweenPoints(Point point1, Point point2) 
+    private double GetDistanceBetweenPoints(Point point1, Point point2)
         => Math.Sqrt(Math.Pow(point1.X - point2.X, 2) + Math.Pow(point1.Y - point2.Y, 2));
 }
