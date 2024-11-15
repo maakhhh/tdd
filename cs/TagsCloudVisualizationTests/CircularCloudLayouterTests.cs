@@ -41,16 +41,17 @@ public class CircularCloudLayouterTests
         action.Should().Throw<ArgumentException>();
     }
 
-    [Test]
-    public void LayouterPutFirstRectangleInCenter()
+    [TestCase(0, 0, TestName = "Zero center")]
+    [TestCase(1, 1, TestName = "Non-zero center")]
+    public void LayouterPutFirstRectangleInCenter(int x, int y)
     {
-        var layouter = new CircularCloudLayouter(new(0, 0));
+        var layouter = new CircularCloudLayouter(new(x, y));
         var rectangleSize = new Size(10, 10);
 
         var actualRectangle = layouter.PutNextRectangle(rectangleSize);
         var expectedRectangle = new Rectangle(
-            -rectangleSize.Width / 2,
-            -rectangleSize.Height / 2,
+            -rectangleSize.Width / 2 + x,
+            -rectangleSize.Height / 2 + y,
             rectangleSize.Width,
             rectangleSize.Height
         );
