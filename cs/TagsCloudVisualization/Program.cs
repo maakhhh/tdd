@@ -6,14 +6,13 @@ public static class Program
     public static void Main()
     {
         var rectanglesCounts = new int[3] { 50, 100, 200 };
-        var imageSize = new Size(800, 800);
         
         foreach (var count in rectanglesCounts)
         {
             var cloud = CloudGenerator
-                .GenerateRandomCloudWithCenter(new(imageSize.Width / 2, imageSize.Height / 2), count);
+                .GenerateRandomCloudWithCenter(new(0, 0), count);
             var visualiser = new CloudVisualiser();
-            visualiser.VisualiseAndSave(cloud.GetRectangles(), GetPathToFile(count), imageSize);
+            visualiser.VisualiseAndSave(cloud.GetRectangles(), GetPathToFile(count));
         }
     }
 

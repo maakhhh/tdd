@@ -13,6 +13,8 @@ public class CircularCloudLayouter : ICloudLayouter
         pointEnumerator = new SpiralPositionGenerator(center).GetPositions().GetEnumerator();
     }
 
+    public List<Rectangle> GetRectangles() => rectangles;
+
     public Rectangle PutNextRectangle(Size rectangleSize)
     {
         if (rectangleSize.Width <= 0 || rectangleSize.Height <= 0)
@@ -40,6 +42,4 @@ public class CircularCloudLayouter : ICloudLayouter
 
     private Point GetPositionFromCenter(Point center, Size size) => 
         new(center.X - size.Width / 2, center.Y - size.Height / 2);
-
-    public List<Rectangle> GetRectangles() => rectangles;
 }
